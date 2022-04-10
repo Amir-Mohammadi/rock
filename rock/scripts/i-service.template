@@ -1,0 +1,16 @@
+using System;
+using System.Collections.Generic;
+using rock.Core.Common;
+using rock.Framework.Autofac;
+using rock.Core.Domains.[module];
+
+namespace rock.Core.Services.[module]
+{
+  public interface I[Resource]Service : I[Type]Dependency
+  {
+      void Insert[Resource]([Resource] entity);
+      void Update[Resource]([Resource] entity, byte[] rowVersion);
+      void Delete[Resource]([Resource] entity);
+      [Resource] Get[Resource]ById(int Id);
+  }
+}

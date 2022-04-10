@@ -1,0 +1,43 @@
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using rock.Core.Common;
+using Microsoft.AspNetCore.Mvc;
+using rock.Models.[module].[Resources];
+
+namespace rock.Controllers.[module]
+{
+  [Route("/api/v{version:apiVersion}/[route-name]")]
+  public class [Resource]Controller : BaseController
+  {
+    [HttpPost]
+    public void Create([FromBody] New[Resource]Input input) { }
+
+    [HttpPut]
+    
+    [Route("{id}/{rowVersion}")]
+    public void Edit(Edit[Resource]Input input)
+    {
+    }
+    [HttpDelete]
+    [Route("{id}")]
+    public void Delete([FromRoute]int id)
+    {
+
+    }
+
+    [HttpGet]
+    [Route("{id}")]
+    public [Resource]Model Get([FromRoute] int id) { return null; }
+
+    [HttpGet]
+    public IPagedList<[Resource]Model> Index(Search[Resources]Input input)
+    { return null; }
+
+
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "providerId": "Microsoft.Tools.ServiceModel.Svcutil",
+  "version": "2.0.2",
+  "options": {
+    "inputs": [
+      "https://banktest.ir/gateway/saman/Payments/InitPayment?wsdl"
+    ],
+    "namespaceMappings": [
+      "*, rock.Core.Services.Payment.Providers.Libs.Token"
+    ],
+    "outputFile": "Reference.cs",
+    "targetFramework": "net5.0",
+    "typeReuseMode": "All"
+  }
+}

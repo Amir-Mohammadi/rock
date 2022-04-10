@@ -1,0 +1,132 @@
+controller=0
+model=0
+factory=0
+service=0
+mapping=0
+rock_script_working_dir=$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )
+while getopts "cmfsp" opt
+do
+    case $opt in
+    (c) controller=1 ;;
+    (m) model=1 ;;
+    (f) factory=1 ;;
+    (s) service=1 ;;
+    (p) mapping=1 ;;
+    (*) printf "-c [Module] [resources] [resource] \n -m" "$opt" && exit 1 ;;
+    esac
+done
+
+if [ $mapping -eq 1 ]
+then
+  rock_mapping_dir="$rock_script_working_dir/../Core/Data/Mappings"
+  mkdir -p $rock_mapping_dir
+  rock_entity=$3
+  rock_domain=$2
+  rock_map_path="$rock_mapping_dir/$rock_entity"Map.cs
+  
+  cat $rock_script_working_dir/map.template > $rock_map_path
+
+  sed -i "s/\[domain\]/$rock_domain/g" $rock_map_path
+  sed -i "s/\[entity\]/$rock_entity/g" $rock_map_path
+fi
+
+if [ $service -eq 1 ]
+then
+  rock_module=$2
+  rock_pascal_file=$(echo $3 | sed -r 's/(^|-)([a-z])/\U\2/g')
+  rock_service_type=$(echo $4 | sed -r 's/(^|-)([a-z])/\U\2/g')
+  rock_service_dir="$rock_script_working_dir/../Core/Services/$rock_module"
+  mkdir -p $rock_service_dir
+  rock_iservice_path="$rock_service_dir/I$rock_pascal_file"Service.cs
+  rock_service_path="$rock_service_dir/$rock_pascal_file"Service.cs
+  
+  cat $rock_script_working_dir/i-service.template > $rock_iservice_path
+  cat $rock_script_working_dir/service.template > $rock_service_path
+
+  
+  sed -i "s/\[Resource\]/$rock_pascal_file/g" $rock_iservice_path
+  sed -i "s/\[Type\]/$rock_service_type/g" $rock_iservice_path
+  sed -i "s/\[module\]/$rock_module/g" $rock_iservice_path
+  sed -i "s/\[Resource\]/$rock_pascal_file/g" $rock_service_path
+  sed -i "s/\[module\]/$rock_module/g" $rock_service_path
+
+
+  exit 0
+fi
+
+if [ $factory -eq 1 ]
+then
+  rock_pascal_file=$(echo $2 | sed -r 's/(^|-)([a-z])/\U\2/g')
+  rock_factory_dir="$rock_script_working_dir/../Factories"
+  mkdir -p $rock_factory_dir
+  rock_ifactory_path="$rock_factory_dir/I$rock_pascal_file"Factory.cs
+  rock_factory_path="$rock_factory_dir/$rock_pascal_file"Factory.cs
+  
+  cat $rock_script_working_dir/i-factory.template > $rock_ifactory_path
+  cat $rock_script_working_dir/factory.template > $rock_factory_path
+
+  
+  sed -i "s/\[Resource\]/$rock_pascal_file/g" $rock_ifactory_path
+  sed -i "s/\[Resource\]/$rock_pascal_file/g" $rock_factory_path
+
+  exit 0
+fi
+
+rock_module=$2
+rock_kebab_resource=$3
+rock_pascal_resources=$(echo $rock_kebab_resource | sed -r 's/(^|-)([a-z])/\U\2/g')
+rock_pascal_resource=$(echo $4 | sed -r 's/(^|-)([a-z])/\U\2/g')
+rock_pascal_file=$(echo $4 | sed -r 's/(^|-)([a-z])/\U\2/g')
+rock_route_module=$(echo $2 | sed -r 's/(.*)/\L\1/g')
+
+
+
+if [ $controller -eq 1 ] 
+then
+  rock_controller_dir="$rock_script_working_dir/../Controllers/$rock_module"
+  mkdir -p $rock_controller_dir
+  rock_controller_path="$rock_controller_dir/$rock_pascal_file"Controller.cs
+  cat $rock_script_working_dir/controller.template > $rock_controller_path
+  
+  sed -i "s/\[Resource\]/$rock_pascal_resource/g" $rock_controller_path
+  sed -i "s/\[Resources\]/$rock_pascal_resources/g" $rock_controller_path
+
+  sed -i "s/\[route-name\]/$rock_kebab_resource/g" $rock_controller_path
+  sed -i "s/\[route-module\]/$rock_route_module/g" $rock_controller_path
+  sed -i "s/\[module\]/$rock_module/g" $rock_controller_path
+
+  # echo [Controller] Created -> $rock_module -> $rock_pascal_resource  
+fi
+if [ $model -eq 1 ] 
+then
+  rock_model_dir="$rock_script_working_dir/../Models/$rock_module/$rock_pascal_resources"
+  mkdir -p $rock_model_dir
+  rock_model_path="$rock_model_dir/$rock_pascal_file"Model.cs
+  rock_new_input_path="$rock_model_dir/New$rock_pascal_file"Input.cs
+  rock_edit_input_path="$rock_model_dir/Edit$rock_pascal_file"Input.cs
+  rock_search_input_path="$rock_model_dir/Search$rock_pascal_file"sInput.cs
+
+  cat $rock_script_working_dir/model.template > $rock_model_path
+  cat $rock_script_working_dir/new-input.template > $rock_new_input_path
+  cat $rock_script_working_dir/edit-input.template > $rock_edit_input_path
+  cat $rock_script_working_dir/search-input.template > $rock_search_input_path
+
+  
+  sed -i "s/\[Resource\]/$rock_pascal_resource/g" $rock_model_path
+  sed -i "s/\[Resources\]/$rock_pascal_resources/g" $rock_model_path
+  sed -i "s/\[module\]/$rock_module/g" $rock_model_path
+  
+  sed -i "s/\[Resource\]/$rock_pascal_resource/g" $rock_new_input_path
+  sed -i "s/\[Resources\]/$rock_pascal_resources/g" $rock_new_input_path
+  sed -i "s/\[module\]/$rock_module/g" $rock_new_input_path
+  
+  sed -i "s/\[Resource\]/$rock_pascal_resource/g" $rock_edit_input_path
+  sed -i "s/\[Resources\]/$rock_pascal_resources/g" $rock_edit_input_path
+  sed -i "s/\[module\]/$rock_module/g" $rock_edit_input_path
+  
+  sed -i "s/\[Resource\]/$rock_pascal_resource/g" $rock_search_input_path
+  sed -i "s/\[Resources\]/$rock_pascal_resources/g" $rock_search_input_path
+  sed -i "s/\[module\]/$rock_module/g" $rock_search_input_path
+
+  # echo [Controller] Created -> $rock_module -> $rock_pascal_resource  
+fi

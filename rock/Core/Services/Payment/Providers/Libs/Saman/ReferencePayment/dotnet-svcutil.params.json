@@ -1,0 +1,15 @@
+{
+  "providerId": "Microsoft.Tools.ServiceModel.Svcutil",
+  "version": "2.0.2",
+  "options": {
+    "inputs": [
+      "https://banktest.ir/gateway/saman/payments/referencepayment?wsdl"
+    ],
+    "namespaceMappings": [
+      "*, rock.Core.Services.Payment.Providers.Lib.Saman.Reference"
+    ],
+    "outputFile": "Reference.cs",
+    "targetFramework": "net5.0",
+    "typeReuseMode": "All"
+  }
+}

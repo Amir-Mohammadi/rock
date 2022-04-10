@@ -1,0 +1,12 @@
+using System;
+using System.Collections.Generic;
+using rock.Framework.Autofac;
+
+using rock.Core.Common;
+
+namespace rock.Factories
+{
+  public interface I[Resource]Factory : IScopedDependency
+  {
+  }
+}

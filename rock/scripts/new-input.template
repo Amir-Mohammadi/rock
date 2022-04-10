@@ -1,0 +1,9 @@
+using System.Runtime.Serialization;
+
+namespace rock.Models.[module].[Resources]
+{
+  public class New[Resource]Input
+  {
+
+  }
+}

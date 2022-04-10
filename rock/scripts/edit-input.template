@@ -1,0 +1,10 @@
+using System;
+using rock.Filters;
+
+namespace rock.Models.[module].[Resources]
+{
+  public class Edit[Resource]Input : RowVersionFilter<int>
+  {
+
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "blankLine.keepOneEmptyLine": false,
+  "blankLine.triggerOnSave": true,
+  "blankLine.languageIds": ["csharp"],
+  "editor.minimap.maxColumn": 280,
+  "editor.detectIndentation": false,
+  "editor.tabSize": 2
+}

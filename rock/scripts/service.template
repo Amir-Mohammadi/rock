@@ -1,0 +1,31 @@
+
+using rock.Core.Common;
+
+using System.Collections.Generic;
+using rock.Core.Domains.[module];
+namespace rock.Core.Services.[module]
+{
+  public partial class [Resource]Service : I[Resource]Service
+  {
+    protected [Resource]Service()
+    {
+    }
+      public void Insert[Resource]([Resource] entity) 
+      {
+        throw new System.NotImplementedException();
+      }
+
+     public void Update[Resource]([Resource] entity, byte[] rowVersion)
+     {
+        throw new System.NotImplementedException();
+     }
+     public void Delete[Resource]([Resource] entity)
+     {
+        throw new System.NotImplementedException();
+     }
+     public [Resource] Get[Resource]ById(int Id)
+     {
+        throw new System.NotImplementedException();
+     }
+  }
+}
